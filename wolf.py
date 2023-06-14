@@ -11,9 +11,9 @@ class Wolf(PredatorAnimal):
 
     def __init__(self, world, position=None):
         if position:
-            super().__init__(self.STRENGTH, self.INITIATIVE, self.SYMBOL, position, world)
+            super().__init__(self.STRENGTH, self.INITIATIVE, self.SYMBOL, world, position)
         else:
-            super().__init__(self.STRENGTH, self.INITIATIVE, self.SYMBOL, Point(0, 0), world)
+            super().__init__(self.STRENGTH, self.INITIATIVE, self.SYMBOL, world, Point(0, 0))
         self.species = Species.WOLF
 
     def reproduce(self, position):

@@ -3,8 +3,8 @@ import random
 
 
 class Animal(Organism):
-    def __init__(self, strength, initiative, age, symbol, position, world):
-        super().__init__(strength, initiative, 0, symbol, position, world)
+    def __init__(self, strength, initiative, age, symbol, world, position):
+        super().__init__(strength, initiative, age, symbol, world, position)
         self.is_animal = True
 
     def action(self):
@@ -48,7 +48,7 @@ class Animal(Organism):
         self.world.add_turn_summary_message(message)
 
     def die(self):
-        self.world.remove(self.position)
+        self.world.remove(self)
 
     def can_move_to(self, destination):
         can_move_to = self.world.is_empty(destination)

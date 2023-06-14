@@ -13,8 +13,8 @@ class Human(Animal):
     INITIATIVE = 4
     SYMBOL = 'H'
 
-    def __init__(self, position: Point, world):
-        super().__init__(self.STRENGTH, self.INITIATIVE, 0, self.SYMBOL, position, world)
+    def __init__(self, world, position: Point):
+        super().__init__(self.STRENGTH, self.INITIATIVE, 0, self.SYMBOL, world, position)
         self.player_action = PlayerAction.NONE
         self.species = 'HUMAN'
         self.is_alive = True

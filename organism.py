@@ -5,7 +5,7 @@ from species import Species
 
 
 class Organism(ABC):
-    def __init__(self, strength, initiative, age, symbol, position, world, is_animal=True):
+    def __init__(self, strength, initiative, age, symbol, world, position, is_animal=True):
         self.strength = strength
         self.initiative = initiative
         self.age = age
