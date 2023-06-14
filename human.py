@@ -16,7 +16,7 @@ class Human(Animal):
     def __init__(self, world, position: Point):
         super().__init__(self.STRENGTH, self.INITIATIVE, 0, self.SYMBOL, world, position)
         self.player_action = PlayerAction.NONE
-        self.species = 'HUMAN'
+        self.species = 'Human'
         self.is_alive = True
 
     def action(self):
@@ -65,6 +65,8 @@ class Human(Animal):
         if self.can_kill(other):
             self.kill(other)
             return True
+        elif other.can_kill(self):
+            other.kill(self)
 
         return False
 
@@ -78,9 +80,6 @@ class Human(Animal):
 
     def get_player_action(self):
         return self.player_action
-
-    # def is_alive(self):
-    #     return self.is_alive
 
     def set_player_action(self, player_action: PlayerAction):
         self.player_action = player_action
