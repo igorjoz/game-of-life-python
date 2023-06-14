@@ -2,7 +2,10 @@ from typing import Union, List
 from enum import Enum
 import numpy as np
 
+from antelope import Antelope
 from human import Human
+from sheep import Sheep
+from tortoise import Tortoise
 from wolf import Wolf
 from world import World
 
@@ -38,17 +41,35 @@ class Game:
     def spawn_initial_organisms(self):
         self.create_human()
         self.spawn_wolves()
+        self.spawn_sheep()
+        self.spawn_antelopes()
+        self.spawn_tortoises()
 
     def create_human(self):
         position = Point(0, 0)
 
-        human = Human(position, self.world)
+        human = Human(self.world, position)
         self.world.create_human(human)
 
     def spawn_wolves(self):
         for _ in range(Wolf.INITIAL_QUANTITY):
             wolf = Wolf(self.world)
             self.world.spawn_organism(wolf)
+
+    def spawn_sheep(self):
+        for _ in range(Sheep.INITIAL_QUANTITY):
+            sheep = Sheep(self.world)
+            self.world.spawn_organism(sheep)
+
+    def spawn_antelopes(self):
+        for _ in range(Antelope.INITIAL_QUANTITY):
+            antelope = Antelope(self.world)
+            self.world.spawn_organism(antelope)
+
+    def spawn_tortoises(self):
+        for _ in range(Tortoise.INITIAL_QUANTITY):
+            tortoise = Tortoise(self.world)
+            self.world.spawn_organism(tortoise)
 
     def move_player(self, direction: Direction):
         human = self.world.get_human()

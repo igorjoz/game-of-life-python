@@ -16,7 +16,6 @@ class World:
         self.human: Optional[Human] = None
 
     def take_turn(self):
-        # print positions of all organisms
         print("Positions of all organisms:")
         for organism in self.organisms_list:
             print(f"{organism.symbol} ({organism.position.x}, {organism.position.y})")
@@ -93,7 +92,8 @@ class World:
         self.turn_summary_messages.append(message)
 
     def remove(self, organism: Organism):
-        self.organisms_list.remove(organism)
+        if organism in self.organisms_list:
+            self.organisms_list.remove(organism)
         self.organisms[organism.position.x][organism.position.y] = None
 
     def is_occupied(self, position: Point):
