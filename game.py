@@ -3,31 +3,18 @@ from enum import Enum
 import numpy as np
 
 from human import Human
+from wolf import Wolf
 from world import World
 
+from direction import Direction
+from point import Point
+from player_action import PlayerAction
 
-class Direction(Enum):
-    UP = 0
-    DOWN = 1
-    LEFT = 2
-    RIGHT = 3
-
-class PlayerAction(Enum):
-    MOVE_UP = 0
-    MOVE_DOWN = 1
-    MOVE_LEFT = 2
-    MOVE_RIGHT = 3
-
-class Species(Enum):
-    # Add all species here, e.g.:
-    HUMAN = 0
-    WOLF = 1
-    # ...
 
 class Game:
     SPECIAL_ABILITY_COOLDOWN = 5
 
-    def __init__(self, gui=None):
+    def __init__(self, gui):
         self.gui = gui
         self.world = None
         self.size = 0
@@ -35,8 +22,10 @@ class Game:
         self.special_ability_cooldown = self.SPECIAL_ABILITY_COOLDOWN
         self.special_ability_duration = 0
 
+        self.initialize_game()
+
     def initialize_game(self):
-        self.size = self.gui.get_map_size()
+        self.size = self.gui.get_board_size()
 
         self.world = World(self, self.size)
         self.turn = 0
@@ -47,23 +36,19 @@ class Game:
         self.spawn_initial_organisms()
 
     def spawn_initial_organisms(self):
-        # Add the methods to spawn all the organisms here, e.g.:
         self.create_human()
-        # self.spawn_wolves()
-        # ...
+        self.spawn_wolves()
 
     def create_human(self):
-        position = (0, 0)
+        position = Point(0, 0)
 
         human = Human(position, self.world)
         self.world.create_human(human)
 
-    # def spawn_wolves(self):
-    #     for _ in range(Wolf.INITIAL_QUANTITY):
-    #         wolf = Wolf(self.world)
-    #         self.world.spawn_organism(wolf)
-
-    # ... Add the methods for all organisms here
+    def spawn_wolves(self):
+        for _ in range(Wolf.INITIAL_QUANTITY):
+            wolf = Wolf(self.world)
+            self.world.spawn_organism(wolf)
 
     def move_player(self, direction: Direction):
         human = self.world.get_human()
@@ -80,27 +65,27 @@ class Game:
         self.world.take_turn()
         self.increment_organisms_age()
         self.turn += 1
-
-        if self.special_ability_cooldown > 0:
-            self.special_ability_cooldown -= 1
-
-        if self.special_ability_duration > 0:
-            self.special_ability_duration -= 1
-
-            if self.special_ability_duration == 0:
-                self.special_ability_cooldown = self.SPECIAL_ABILITY_COOLDOWN
-
-        for i in range(self.size):
-            for j in range(self.size):
-                if self.world.get_organisms()[j][i] is None:
-                    print("- ", end='')
-                else:
-                    print(self.world.get_organisms()[j][i].get_symbol(), " ", end='')
-            print()
+        #
+        # if self.special_ability_cooldown > 0:
+        #     self.special_ability_cooldown -= 1
+        #
+        # if self.special_ability_duration > 0:
+        #     self.special_ability_duration -= 1
+        #
+        #     if self.special_ability_duration == 0:
+        #         self.special_ability_cooldown = self.SPECIAL_ABILITY_COOLDOWN
+        #
+        # for i in range(self.size):
+        #     for j in range(self.size):
+        #         if self.world.get_organisms()[j][i] is None:
+        #             print("- ", end='')
+        #         else:
+        #             print(self.world.get_organisms()[j][i].get_symbol(), " ", end='')
+        #     print()
 
     def increment_organisms_age(self):
         for organism in self.world.get_organisms_list():
-            organism.set_age(organism.get_age() + 1)
+            organism.age = organism.age + 1
 
     def activate_special_ability(self):
         if self.special_ability_cooldown > 0:
@@ -109,6 +94,15 @@ class Game:
 
         self.special_ability_duration = 5
         self.special_ability_cooldown = 0
+
+    def get_special_ability_duration(self):
+        return self.special_ability_duration
+
+    def get_special_ability_cooldown(self):
+        return self.special_ability_cooldown
+
+    def get_organisms_list(self):
+        return self.world.get_organisms_list()
 
     def save_to_file(self):
         with open("save.txt", "w") as file:
