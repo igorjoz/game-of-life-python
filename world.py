@@ -26,9 +26,7 @@ class World:
 
         self.organisms_list.sort(key=lambda org: (org.initiative, org.age), reverse=True)
 
-        # for organism in self.organisms_list.copy():
         for organism in self.organisms_list:
-            # if organism.is_alive:
             print(f"{organism.symbol} ({organism.position.x}, {organism.position.y})")
             organism.action()
 
@@ -44,7 +42,6 @@ class World:
 
     def is_within_board_boundaries(self, position: Point):
         return 0 <= position.x < self.size and 0 <= position.y < self.size
-        # return True
 
     def get_random_position(self):
         x = random.randint(0, self.size - 1)
@@ -96,6 +93,10 @@ class World:
             self.organisms_list.remove(organism)
         self.organisms[organism.position.x][organism.position.y] = None
 
+    def clear_organisms(self):
+        self.organisms = [[None for _ in range(self.size)] for _ in range(self.size)]
+        self.organisms_list = []
+
     def is_occupied(self, position: Point):
         return self.organisms[position.x][position.y] is not None
 
@@ -107,6 +108,18 @@ class World:
 
     def get_organism_at(self, position: Point):
         return self.organisms[position.x][position.y]
+
+    def get_nearest_hogweed(self, position: Point):
+        nearest_hogweed = None
+        nearest_distance = 1000000000
+        for organism in self.organisms_list:
+            if organism.symbol == 'P':
+                distance = organism.position.distance(position)
+                if distance < nearest_distance:
+                    nearest_distance = distance
+                    nearest_hogweed = organism
+
+        return nearest_hogweed
 
     def remove_organism(self, organism: Organism):
         self.organisms_list.remove(organism)
