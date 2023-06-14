@@ -1,19 +1,11 @@
 from enum import Enum
-from typing import Tuple
 import random
 
 from animal import Animal
 from organism import Organism
 from point import Point
-from world import World
 
-
-class PlayerAction(Enum):
-    MOVE_UP = 1
-    MOVE_DOWN = 2
-    MOVE_LEFT = 3
-    MOVE_RIGHT = 4
-    NONE = 5
+from player_action import PlayerAction
 
 
 class Human(Animal):
@@ -21,8 +13,8 @@ class Human(Animal):
     INITIATIVE = 4
     SYMBOL = 'H'
 
-    def __init__(self, position: Point, world: World):
-        super().__init__(self.STRENGTH, self.INITIATIVE, self.SYMBOL, position, world)
+    def __init__(self, position: Point, world):
+        super().__init__(self.STRENGTH, self.INITIATIVE, 0, self.SYMBOL, position, world)
         self.player_action = PlayerAction.NONE
         self.species = 'HUMAN'
         self.is_alive = True
@@ -30,6 +22,8 @@ class Human(Animal):
     def action(self):
         x = self.position.x
         y = self.position.y
+
+        print(f"Current position: ({x}, {y})")
 
         special_ability_duration = self.world.get_game().get_special_ability_duration()
         random_number = random.choice([0, 1])
@@ -53,6 +47,8 @@ class Human(Animal):
             elif self.player_action == PlayerAction.MOVE_RIGHT:
                 x += 1
 
+        print(f"Position after: ({x}, {y})")
+
         destination = Point(x, y)
 
         if not self.world.is_within_board_boundaries(destination):
@@ -62,8 +58,8 @@ class Human(Animal):
             other = self.world.get_organism_at(destination)
             self.collision(other)
 
-        if self.can_move_to(destination):
-            self.move(destination)
+        # if self.can_move_to(destination):
+        self.move(destination)
 
     def collision(self, other: Organism):
         if self.can_kill(other):
@@ -74,6 +70,7 @@ class Human(Animal):
 
     def die(self):
         self.is_alive = False
+        self.world.handle_human_died()
         super().die()
 
     def reproduce(self, position: Point):
@@ -82,8 +79,8 @@ class Human(Animal):
     def get_player_action(self):
         return self.player_action
 
-    def get_is_alive(self):
-        return self.is_alive
+    # def is_alive(self):
+    #     return self.is_alive
 
     def set_player_action(self, player_action: PlayerAction):
         self.player_action = player_action

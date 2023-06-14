@@ -5,15 +5,16 @@ from species import Species
 
 
 class Organism(ABC):
-    def __init__(self, strength=0, initiative=0, age=0, symbol='N', position=None, world=None, is_animal=False):
+    def __init__(self, strength, initiative, age, symbol, position, world, is_animal=True):
         self.strength = strength
         self.initiative = initiative
         self.age = age
         self.symbol = symbol
         self.is_animal = is_animal
-        self.position = position if position else Point(0, 0)
+        self.position = position
         self.world = world
         self.species = Species.ORGANISM
+        self.is_alive = True
 
     @abstractmethod
     def action(self):
@@ -93,6 +94,14 @@ class Organism(ABC):
     def position(self, position):
         self._position = position
 
+    @property
+    def is_alive(self):
+        return self._is_alive
+
+    @is_alive.setter
+    def is_alive(self, is_alive):
+        self._is_alive = is_alive
+
     def get_x(self):
         return self.position.x
 
@@ -105,6 +114,10 @@ class Organism(ABC):
 
     def set_position(self, x, y):
         self.position = Point(x, y)
+
+    # set position for Point
+    def set_position(self, position):
+        self.position = position
 
     @initiative.setter
     def initiative(self, value):

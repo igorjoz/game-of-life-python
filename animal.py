@@ -3,8 +3,8 @@ import random
 
 
 class Animal(Organism):
-    def __init__(self, strength, initiative, symbol, position, world):
-        super().__init__(strength, initiative, symbol, position, world)
+    def __init__(self, strength, initiative, age, symbol, position, world):
+        super().__init__(strength, initiative, 0, symbol, position, world)
         self.is_animal = True
 
     def action(self):
@@ -29,12 +29,13 @@ class Animal(Organism):
         # other.collision(self) is not needed in Python due to dynamic typing
 
         if self.can_reproduce(other, self.position):
+            # check if organisms are not the same
             self.reproduce(self.position)
 
         return False
 
     def move(self, destination):
-        self.world.move(self.position, destination)
+        self.world.move_organism(self.position, destination)
         self.position = destination
 
     def kill(self, other):
@@ -70,7 +71,7 @@ class Animal(Organism):
         return self.strength < other.strength
 
     def can_reproduce(self, other, position):
-        if isinstance(self, type(other)) and self.world.has_free_space(position):
+        if isinstance(self, type(other)) and self != other and self.world.has_free_space(position):
             return True
 
         return False
