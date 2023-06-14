@@ -5,7 +5,7 @@ from point import Point
 
 
 class PredatorAnimal(Animal):
-    def __init__(self, strength, initiative, symbol, world, position=None):
+    def __init__(self, strength, initiative, age, symbol, world, position=None):
         super().__init__(strength, initiative, 0, symbol, world, position)
 
     def action(self):
