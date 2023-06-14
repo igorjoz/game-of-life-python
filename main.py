@@ -1,54 +1,40 @@
 import pygame
-
-# import game class
 from game import Game
+from gui import Gui
+from direction import Direction
 
-WIDTH = 900
-HEIGHT = 700
-
-ICON_WIDTH = 64
-ICON_HEIGHT = 64
-
-WHITE = (255, 255, 255)
 
 FPS = 144
 
-HUMAN_IMAGE = pygame.image.load("assets/human.png")
-HUMAN = pygame.transform.scale(HUMAN_IMAGE, (ICON_WIDTH, ICON_HEIGHT))
-
-WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
-
-pygame.display.set_caption("Game of Life - Igor Józefowicz")
-
-
-def draw_window():
-    WINDOW.fill(WHITE)
-    WINDOW.blit(HUMAN, (0, 0))
-    pygame.display.update()
-
 
 def main():
-    game = Game()
+    gui = Gui()
+    game = Game(gui)
 
     clock = pygame.time.Clock()
 
     run = True
     while run:
-        clock.tick(FPS)
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    print("left arrow key pressed")
+                    game.move_player(Direction.LEFT)
+                elif event.key == pygame.K_RIGHT:
+                    print("right arrow key pressed")
+                    game.move_player(Direction.RIGHT)
+                elif event.key == pygame.K_UP:
+                    print("up arrow key pressed")
+                    game.move_player(Direction.UP)
+                elif event.key == pygame.K_DOWN:
+                    print("down arrow key pressed")
+                    game.move_player(Direction.DOWN)
 
-        keys_pressed = pygame.key.get_pressed()
-
-        if keys_pressed[pygame.K_LEFT]:
-            pass
-        # if enter is pressed, draw red square
-        if keys_pressed[pygame.K_RETURN]:
-            pass
-
-        draw_window()
+        organisms_list = game.get_organisms_list()
+        gui.update_window(organisms_list)
+        clock.tick(FPS)
 
     pygame.quit()
 
