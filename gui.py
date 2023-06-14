@@ -18,17 +18,20 @@ HUMAN = pygame.transform.scale(HUMAN_IMAGE, (ICON_WIDTH, ICON_HEIGHT))
 WOLF_IMAGE = pygame.image.load("./assets/wolf.png")
 WOLF = pygame.transform.scale(WOLF_IMAGE, (ICON_WIDTH, ICON_HEIGHT))
 
+FOX_IMAGE = pygame.image.load("./assets/fox.png")
+FOX = pygame.transform.scale(FOX_IMAGE, (ICON_WIDTH, ICON_HEIGHT))
+
 SHEEP_IMAGE = pygame.image.load("./assets/sheep.png")
 SHEEP = pygame.transform.scale(SHEEP_IMAGE, (ICON_WIDTH, ICON_HEIGHT))
 
-FOX_IMAGE = pygame.image.load("./assets/fox.png")
-FOX = pygame.transform.scale(FOX_IMAGE, (ICON_WIDTH, ICON_HEIGHT))
+ANTELOPE_IMAGE = pygame.image.load("./assets/antelope.png")
+ANTELOPE = pygame.transform.scale(ANTELOPE_IMAGE, (ICON_WIDTH, ICON_HEIGHT))
 
 TORTOISE_IMAGE = pygame.image.load("./assets/tortoise.png")
 TORTOISE = pygame.transform.scale(TORTOISE_IMAGE, (ICON_WIDTH, ICON_HEIGHT))
 
-ANTELOPE_IMAGE = pygame.image.load("./assets/antelope.png")
-ANTELOPE = pygame.transform.scale(ANTELOPE_IMAGE, (ICON_WIDTH, ICON_HEIGHT))
+# CYBER_SHEEP_IMAGE = pygame.image.load("./assets/cyber_sheep.png")
+# CYBER_SHEEP = pygame.transform.scale(CYBER_SHEEP_IMAGE, (ICON_WIDTH, ICON_HEIGHT))
 
 GRASS_IMAGE = pygame.image.load("./assets/grass.png")
 GRASS = pygame.transform.scale(GRASS_IMAGE, (ICON_WIDTH, ICON_HEIGHT))
@@ -87,5 +90,25 @@ class Gui:
                 WINDOW.blit(HUMAN, (organism.position.x * ICON_WIDTH, organism.position.y * ICON_HEIGHT))
             elif organism.symbol == "W":
                 WINDOW.blit(WOLF, (organism.position.x * ICON_WIDTH, organism.position.y * ICON_HEIGHT))
+            elif organism.symbol == "S":
+                WINDOW.blit(SHEEP, (organism.position.x * ICON_WIDTH, organism.position.y * ICON_HEIGHT))
+            elif organism.symbol == "A":
+                WINDOW.blit(ANTELOPE, (organism.position.x * ICON_WIDTH, organism.position.y * ICON_HEIGHT))
+            elif organism.symbol == "T":
+                WINDOW.blit(TORTOISE, (organism.position.x * ICON_WIDTH, organism.position.y * ICON_HEIGHT))
+            # elif organism.symbol == "C":
+            #     WINDOW.blit(CYBER_SHEEP, (organism.position.x * ICON_WIDTH, organism.position.y * ICON_HEIGHT))
+            elif organism.symbol == "F":
+                WINDOW.blit(FOX, (organism.position.x * ICON_WIDTH, organism.position.y * ICON_HEIGHT))
+            elif organism.symbol == "G":
+                WINDOW.blit(GRASS, (organism.position.x * ICON_WIDTH, organism.position.y * ICON_HEIGHT))
+            elif organism.symbol == "U":
+                WINDOW.blit(GUARANA, (organism.position.x * ICON_WIDTH, organism.position.y * ICON_HEIGHT))
+            elif organism.symbol == "D":
+                WINDOW.blit(DANDELION, (organism.position.x * ICON_WIDTH, organism.position.y * ICON_HEIGHT))
+            elif organism.symbol == "N":
+                WINDOW.blit(NIGHTSHADE, (organism.position.x * ICON_WIDTH, organism.position.y * ICON_HEIGHT))
+            elif organism.symbol == "H":
+                WINDOW.blit(HOGWEED, (organism.position.x * ICON_WIDTH, organism.position.y * ICON_HEIGHT))
 
         pygame.display.update()
