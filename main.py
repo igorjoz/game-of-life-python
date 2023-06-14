@@ -2,7 +2,7 @@ import pygame
 from game import Game
 from gui import Gui
 from direction import Direction
-
+from point import Point
 
 FPS = 144
 
@@ -15,6 +15,8 @@ def main():
 
     run = True
     while run:
+        # right_click_mouse_position = None
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -31,6 +33,34 @@ def main():
                 elif event.key == pygame.K_DOWN:
                     print("down arrow key pressed")
                     game.move_player(Direction.DOWN)
+                elif event.key == pygame.K_e:
+                    print("e key pressed")
+                    game.activate_special_ability()
+                elif event.key == pygame.K_k:
+                    print("k key pressed")
+                    game.save_to_file()
+                elif event.key == pygame.K_l:
+                    print("l key pressed")
+                    game.load_from_file()
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
+                print("right mouse button clicked")
+                right_click_mouse_position = pygame.mouse.get_pos()
+                gui.context_menu_position = pygame.Rect(right_click_mouse_position[0], right_click_mouse_position[1], 0, 0)  # Convert tuple to Rect object
+                gui.context_menu_active = True
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                print("left mouse button clicked")
+                if gui.context_menu_active:
+                    mouse_position_tuple = pygame.mouse.get_pos()
+                    # mouse_position_tuple = right_click_mouse_position
+                    menu_font = pygame.font.Font(None, 24)
+                    menu_item_index = (mouse_position_tuple[1] - gui.context_menu_position[1]) // menu_font.get_linesize()
+                    # mouse_position_tuple = pygame.mouse.get_pos()
+                    mouse_position = Point(right_click_mouse_position[0], right_click_mouse_position[1])
+                    # game.spawn_from_menu(menu_item_index, mouse_position)
+                    if 0 <= menu_item_index < 12:
+                        game.spawn_from_menu(menu_item_index, mouse_position)
+                        print("spawned organism")
+                    gui.context_menu_active = False
 
         organisms_list = game.get_organisms_list()
         gui.update_window(organisms_list)
