@@ -26,10 +26,9 @@ class Animal(Organism):
             self.kill(other)
             return True
 
-        # other.collision(self) is not needed in Python due to dynamic typing
+        other.collision(self)
 
         if self.can_reproduce(other, self.position):
-            # check if organisms are not the same
             self.reproduce(self.position)
 
         return False

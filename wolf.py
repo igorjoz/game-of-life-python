@@ -11,10 +11,10 @@ class Wolf(PredatorAnimal):
 
     def __init__(self, world, position=None):
         if position:
-            super().__init__(self.STRENGTH, self.INITIATIVE, self.SYMBOL, world, position)
+            super().__init__(self.STRENGTH, self.INITIATIVE, 0, self.SYMBOL, world, position)
         else:
-            super().__init__(self.STRENGTH, self.INITIATIVE, self.SYMBOL, world, Point(0, 0))
-        self.species = Species.WOLF
+            super().__init__(self.STRENGTH, self.INITIATIVE, 0, self.SYMBOL, world, Point(0, 0))
+        self.species = "Wolf"
 
     def reproduce(self, position):
         free_space = self.world.get_random_free_space_around(position)
