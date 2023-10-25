@@ -15,8 +15,6 @@ def main():
 
     run = True
     while run:
-        # right_click_mouse_position = None
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
